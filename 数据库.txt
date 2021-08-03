@@ -1,0 +1,288 @@
+set character_set_database=utf8;
+set character_set_server=utf8;
+set character_set_client=gbk;
+
+set character_set_connection=gbk;
+flush privileges;
+
+drop database if exists Warehouse;
+create database Warehouse;
+use Warehouse;
+
+create table material(
+mtId varchar(25) primary key,
+mtName varchar(100),
+mtType int(2),
+mtSize int(1),
+mtCreatorId int(15),
+mtComment varchar(200),
+mtModifierId int(15),
+mtModificationTime varchar(20),
+mtCreationTime varchar(20)
+);
+
+create table goodsReceivedNote(
+grnId varchar(25) primary key,
+grnOrderNum varchar(25),
+grnType int(5),
+grnSplId varchar(25),
+grnSplName varchar(100),
+grnMaterialId varchar(25),
+grnMaterialName varchar(100),
+warehouseId varchar(25),
+warehouseName varchar(100),
+reservoirareaId varchar(25),
+reservoirareaName varchar(100),
+grnSrId varchar(25),
+grnSrName varchar(100),
+grnInQuantity bigint(15),
+grnState int(1),
+grnDpId varchar(25),
+grnCreatorId int(15),
+grnComment varchar(200),
+grnModifierId int(15),
+grnModificationTime varchar(20),
+grnCreationTime varchar(20)
+);
+create table supplier(
+splId varchar(25) primary key,
+splName varchar(100),
+splType int(5),
+splPhone varchar(12),
+splLinkman varchar(50),
+splCreatorId int(15),
+splComment varchar(200),
+splModifierId int(15),
+splModificationTime varchar(20),
+splCreationTime varchar(20)
+
+);
+create table carrier(
+cId varchar(25) primary key,
+cName varchar(100),
+cType int(5),
+cPhone varchar(12),
+cLinkman varchar(50),
+cCreatorId int(15),
+cComment varchar(200),
+cModifierId int(15),
+cModificationTime varchar(20),
+cCreationTime varchar(20)
+
+);
+
+create table outdeliverList(
+odlId varchar(25) primary key,
+odlOrderNum varchar(25),
+odlType varchar(20),
+odlCustomerId varchar(25),
+odlCustomerName varchar(100),
+odlMaterialId varchar(25),
+odlMaterialName varchar(100),
+warehouseId varchar(25),
+warehouseName varchar(100),
+reservoirareaId varchar(25),
+reservoirareaName varchar(100),
+odlSrId varchar(25),
+odlSrName varchar(100),
+odlOutQuantity bigint(15),
+odlState int(1),
+odlAddress varchar(200),
+odlCreatorId int(15),
+odlComment varchar(200),
+odlModifierId int(15),
+odlModificationTime varchar(20),
+odlCreationTime varchar(20)
+
+);
+create table customer(
+ctmId varchar(25) primary key,
+ctmName varchar(100),
+ctmType int(5),
+ctmPhone varchar(12),
+ctmLinkman varchar(50),
+ctmCreatorId int(15),
+ctmComment varchar(200),
+ctmModifierId int(15),
+ctmModificationTime varchar(20),
+ctmCreationTime varchar(20)
+
+);
+create table warehouse(
+whId varchar(25) primary key,
+whName varchar(100),
+whCreatorId int(15),
+whComment varchar(200),
+whModifierId int(15),
+whModificationTime varchar(20),
+whCreationTime varchar(20)
+);
+
+create table reservoirarea(
+raId varchar(25) primary key,
+raName varchar(100),
+raType int(2),
+raWhId varchar(25),
+raWhName varchar(100),
+raCreatorId int(15),
+raComment varchar(200),
+raModifierId int(15),
+raModificationTime varchar(20),
+raCreationTime varchar(20)
+);
+
+create table storageRack(
+srId varchar(25) primary key,
+srName varchar(20),
+srMtId varchar(25),
+srMtName varchar(100),
+srWhId varchar(25),
+srWhName varchar(100),
+srRaId varchar(25),
+srRaName varchar(100),
+srCreatorId int(15),
+srComment varchar(200),
+srModifierId int(15),
+srModificationTime varchar(20),
+srCreationTime varchar(20)
+);
+
+create table user(
+uId bigint(15) primary key AUTO_INCREMENT,
+uPassword varchar(50),
+uName varchar(100),
+uAuthority int(1),
+uHeadPortrait varchar(200),
+uPhone varchar(12),
+uEmail varchar(50),
+uSex char(2),
+uCreatorId int(15),
+uModifierId int(15),
+uModificationTime varchar(20),
+uCreationTime varchar(20)
+);
+
+create table dispatchList(
+dpId varchar(25) primary key,
+dpOdlId varchar(25),
+dpTime varchar(20),
+dpCId varchar(25),
+dpState int(1),
+expressNumber varchar(50),
+dpCreatorId int(15),
+dpComment varchar(200),
+dpModifierId int(15),
+dpModificationTime varchar(20),
+dpCreationTime varchar(20)
+
+);
+create table stock(
+mtId varchar(25),
+mtName varchar(100),
+whId varchar(25),
+whName varchar(100),
+raId varchar(25),
+raName varchar(100),
+srId varchar(25),
+srName varchar(100),
+currentStock int(5),
+safeStock int(5),
+creationTime varchar(20),
+modificationTime varchar(20),
+CONSTRAINT pkMtkey PRIMARY KEY (mtId,srId)
+);
+
+create table inform(
+fId varchar(25) primary key,
+fTitle varchar(100),
+fContent varchar(2000),
+fCreatorId int(15),
+fCreationTime varchar(20)
+);
+
+create table mdForm(
+fId varchar(25),
+uId varchar(25),
+state int(1),
+CONSTRAINT pkMdkey PRIMARY KEY (fId,uId)
+);
+
+
+
+Insert into dispatchList values('dp202103170001','odl20210317004','','',1,'',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+
+Insert into user values(123456,'9999','管理员',1,'headPortrait/man.jpg','136924xxxxx','16155xxqq.com','男',123456,123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+Insert into inform values('f202103140000001','最新通知','今天晚上8点各位二级管理员需要在会议室开会，请务必到场',123456,'2021-03-17 15:54:12');
+Insert into mdForm values('f202103140000001',123456,1);
+
+Insert into warehouse values('wh21031701','一号仓库',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+Insert into reservoirArea values('ra2103170101','一号库区',1,'wh21031701','一号仓库',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into reservoirArea values('ra2103170102','二号库区',2,'wh21031701','一号仓库',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into reservoirArea values('ra2103170103','三号库区',3,'wh21031701','一号仓库',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into reservoirArea values('ra2103170104','四号库区',4,'wh21031701','一号仓库',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into reservoirArea values('ra2103170105','五号库区',5,'wh21031701','一号仓库',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into reservoirArea values('ra2103170106','六号库区',6,'wh21031701','一号仓库',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into reservoirArea values('ra2103170107','七号库区',7,'wh21031701','一号仓库',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into reservoirArea values('ra2103170108','八号库区',8,'wh21031701','一号仓库',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+Insert into storageRack values('sr210317010101','0101号货架','mt210317010101','打印纸','wh21031701','一号仓库','ra2103170101','一号库区',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into storageRack values('sr210317010201','0201号货架','mt210317010201','安全帽','wh21031701','一号仓库','ra2103170102','二号库区',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into storageRack values('sr210317010301','0301号货架','mt210317010301','死皮钳','wh21031701','一号仓库','ra2103170103','三号库区',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into storageRack values('sr210317010401','0401号货架','mt210317010401','空调','wh21031701','一号仓库','ra2103170104','四号库区',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into storageRack values('sr210317010501','0501号货架','mt210317010501','彩旗','wh21031701','一号仓库','ra2103170105','五号库区',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into storageRack values('sr210317010601','0601号货架','mt210317010601','水泵','wh21031701','一号仓库','ra2103170106','六号库区',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into storageRack values('sr210317010701','0701号货架','mt210317010701','普通钢材','wh21031701','一号仓库','ra2103170107','七号库区',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into storageRack values('sr210317010801','0801号货架','mt210317010801','机电元件','wh21031701','一号仓库','ra2103170108','八号库区',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+Insert into stock values('mt210317010101','打印纸','wh21031701','一号仓库','ra2103170101','一号库区','sr210317010101','0101号货架',100,5000,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into stock values('mt210317010201','安全帽','wh21031701','一号仓库','ra2103170102','二号号库区','sr210317010201','0201号货架',50,1000,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into stock values('mt210317010301','死皮钳','wh21031701','一号仓库','ra2103170103','三号库区','sr210317010301','0301号货架',20,1000,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into stock values('mt210317010401','空调','wh21031701','一号仓库','ra2103170104','四号库区','sr210317010401','0401号货架',5,100,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into stock values('mt210317010501','彩旗','wh21031701','一号仓库','ra2103170105','五号库区','sr210317010501','0501号货架',20,500,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into stock values('mt210317010601','水泵','wh21031701','一号仓库','ra2103170106','六号库区','sr210317010601','0601号货架',10,200,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into stock values('mt210317010701','普通钢材','wh21031701','一号仓库','ra2103170107','七号库区','sr210317010701','0701号货架',10,200,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into stock values('mt210317010801','机电元件','wh21031701','一号仓库','ra2103170108','八号库区','sr210317010801','0801号货架',50,1000,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+Insert into material values('mt210317010101','打印纸',1,1,123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into material values('mt210317010201','安全帽',2,2,123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into material values('mt210317010301','死皮钳',3,2,123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into material values('mt210317010401','空调',4,5,123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into material values('mt210317010501','彩旗',5,3,123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into material values('mt210317010601','水泵',6,4,123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into material values('mt210317010701','普通钢材',7,4,123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into material values('mt210317010801','机电元件',8,2,123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+Insert into goodsReceivedNote values('grn20210317001','d202103170001',1,'spl202103170001','虚拟公司1','mt210317010101','打印纸','wh21031701','一号仓库','ra2103170101','一号库区','sr210317010101','0101号货架',110,3,null,123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into goodsReceivedNote values('grn20210317002','d202103170002',1,'spl202103170002','虚拟公司2','mt210317010201','安全帽','wh21031701','一号仓库','ra2103170102','二号库区','sr210317010201','0201号货架',60,3,null,123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into goodsReceivedNote values('grn20210317003','d202103170003',1,'spl202103170003','虚拟公司3','mt210317010301','死皮钳','wh21031701','一号仓库','ra2103170103','三号库区','sr210317010301','0301号货架',30,3,null,123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into goodsReceivedNote values('grn20210317004','d202103170004',1,'spl202103170004','虚拟公司4','mt210317010401','空调','wh21031701','一号仓库','ra2103170104','四号库区','sr210317010401','0401号货架',10,3,null,123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+
+Insert into supplier values('spl202103170001','虚拟公司1',1,'053187966685','陈连胜',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into supplier values('spl202103170002','虚拟公司2',1,'053187966686','陈昌盛',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into supplier values('spl202103170003','虚拟公司3',1,'053187966687','陈祁连',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into supplier values('spl202103170004','虚拟公司4',1,'053187966688','陈冠盛',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into supplier values('spl202103170005','虚拟公司5',1,'053187966689','陈连冠',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+Insert into customer values('ctm202103170001','虚拟客户公司1',1,'053187966601','李连冠',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into customer values('ctm202103170002','虚拟客户公司2',1,'053187966602','李昌盛',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into customer values('ctm202103170003','虚拟客户公司3',1,'053187966603','李祁连',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into customer values('ctm202103170004','虚拟客户公司4',1,'053187966604','李冠盛',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into customer values('ctm202103170005','虚拟客户公司5',1,'053187966605','李连冠',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+Insert into outdeliverList values('odl20210317001','d202103170004',1,'ctm202103170001','虚拟客户公司1','mt210317010101','打印纸','wh21031701','一号仓库','ra2103170101','一号库区','sr210317010101','0101号货架',10,3,'广东省广州市白云区',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into outdeliverList values('odl20210317002','d202103170005',1,'ctm202103170002','虚拟客户公司2','mt210317010201','安全帽','wh21031701','一号仓库','ra2103170102','二号库区','sr210317010201','0201号货架',10,3,'广东省广州市白云区',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into outdeliverList values('odl20210317003','d202103170006',1,'ctm202103170003','虚拟客户公司3','mt210317010301','死皮钳','wh21031701','一号仓库','ra2103170103','三号库区','sr210317010301','0301号货架',10,3,'广东省广州市白云区',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into outdeliverList values('odl20210317004','d202103170007',1,'ctm202103170004','虚拟客户公司4','mt210317010401','空调','wh21031701','一号仓库','ra2103170104','四号库区','sr210317010401','0401号货架',5,3,'广东省广州市白云区',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+Insert into carrier values('c202103170001','圆通',1,'053187966001','王梁',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into carrier values('c202103170002','顺丰',1,'053187966002','王天成',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+Insert into carrier values('c202103170003','韵达',1,'053187966003','王登丰',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+
+
+
+
