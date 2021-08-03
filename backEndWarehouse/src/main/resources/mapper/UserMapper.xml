@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.managementsystem.mapper.UserMapper">
+    <resultMap id="baseMap" type="com.managementsystem.entity.User" autoMapping="false">
+        <result property="uId" column="uId"></result>
+        <result property="uPassword" column="uPassword"></result>
+        <result property="uName" column="uName"></result>
+        <result property="uAuthority" column="uAuthority"></result>
+        <result property="uPhone" column="uPhone"></result>
+        <result property="uEmail" column="uEmail"></result>
+        <result property="uSex" column="uSex"></result>
+        <result property="uCreatorId" column="uCreatorId"></result>
+        <result property="uModifierId" column="uModifierId"></result>
+        <result property="uCreationTime" column="uCreationTime"></result>
+        <result property="uModificationTime" column="uModificationTime"></result>
+    </resultMap>
+    <select id="findAll" resultType="com.managementsystem.entity.User">
+        select *
+        from user
+    </select>
+    <select id="findUserById" resultType="com.managementsystem.entity.User">
+        select * from user where uId = #{uId}
+    </select>
+
+    <select id="findUserByIdAndPassword" resultType="com.managementsystem.entity.User">
+        select *
+        from user
+        where uId = #{uId} and uPassword = #{uPassword}
+    </select>
+
+    <insert id="addUser"  parameterType="com.managementsystem.entity.User">
+      insert into user
+      values
+      (#{uId},#{uPassword},#{uName},#{uAuthority},#{uHeadPortrait},#{uPhone},#{uEmail},#{uSex},#{uCreatorId},#{uModifierId},#{uModificationTime},#{uCreationTime})
+    </insert>
+    <update id="editUser" parameterType="com.managementsystem.entity.User">
+        update user
+        set uPassword=#{uPassword},uName=#{uName},uHeadPortrait=#{uHeadPortrait},uPhone=#{uPhone},uEmail=#{uEmail},uSex=#{uSex},uModifierId=#{uModifierId},uModificationTime=#{uModificationTime}
+        where uId = #{uId}
+    </update>
+
+    <delete id="deleteUser">
+        delete from user where uId = #{uId}
+    </delete>
+
+
+</mapper>

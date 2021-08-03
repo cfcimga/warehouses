@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.managementsystem.mapper.CarrierMapper">
+    <!--多表联查一对一的方法，就是先在Entiy实体类1中加上联查的表的实体类2的类，然后在xml文件上做resultMap映射1-->
+    <!--多表联查一对多的方法，就是先在Entity实体类1上加上联查的表的实体类2的list<实体类>,然后在xml文件上做resultMap映射2-->
+
+    <!--<resultMap id="carrierUserMap" type="com.managementsystem.entity.Carrier" extends="baseMap" autoMapping="false"> 映射2-->
+        <!--<collection property="list<实体类>的名称" ofType="com.managementsystem.entity.联查的实体类的类名">-->
+            <!--<result property="实体类2的类属性" column="数据库的属性"></result>-->
+        <!--</collection>-->
+    <!--</resultMap>-->
+
+    <resultMap id="baseMap" type="com.managementsystem.entity.Carrier"> <!--映射1-->
+        <result property="cId" column="cId"></result>
+        <result property="cName" column="cName"></result>
+        <result property="cType" column="cType"></result>
+        <result property="cPhone" column="cPhone"></result>
+        <result property="cLinkman" column="cLinkman"></result>
+        <result property="cCreatorId" column="cCreatorId"></result>
+        <result property="cComment" column="cComment"></result>
+        <result property="cModifierId" column="cModifierId"></result>
+        <result property="cModificationTime" column="cModificationTime"></result>
+        <result property="cCreationTime" column="cCreationTime"></result>
+    </resultMap>
+    <resultMap id="carrierUserMap" type="com.managementsystem.entity.Carrier" extends="baseMap" autoMapping="false"> <!--映射1-1-->
+        <result property="user.uId" column="uId"></result>
+        <result property="user.uPassword" column="uPassword"></result>
+        <result property="user.uName" column="uName"></result>
+        <result property="user.uAuthority" column="uAuthority"></result>
+        <result property="user.uPhone" column="uPhone"></result>
+        <result property="user.uEmail" column="uEmail"></result>
+        <result property="user.uSex" column="uSex"></result>
+        <result property="user.uCreatorId" column="uCreatorId"></result>
+        <result property="user.uModifierId" column="uModifierId"></result>
+        <result property="user.uCreationTime" column="uCreationTime"></result>
+        <result property="user.uModificationTime" column="uModificationTime"></result>
+    </resultMap>
+
+    <select id="findAll" resultType="com.managementsystem.entity.Carrier">
+        select *
+        from carrier order by cType asc
+    </select>
+    <select id="findCreator" resultMap="carrierUserMap">
+        select * from carrier c,user u where c.cCreatorId = u.uId and c.cCreatorId = 123456
+    </select>
+    <insert id="addCarrier"  parameterType="com.managementsystem.entity.Carrier">
+      insert into carrier
+      values
+      (#{cId},#{cName},#{cType},#{cPhone},#{cLinkman},#{cCreatorId},#{cComment},#{cModifierId},#{cModificationTime},#{cCreationTime})
+--       Insert into carrier values('c202103170003','韵达',1,'053187966003','王登丰',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+    </insert>
+    <update id="editCarrier" parameterType="com.managementsystem.entity.Carrier">
+        update carrier
+        set cName=#{cName},cType=#{cType},cPhone=#{cPhone},cLinkman=#{cLinkman},cComment=#{cComment},cModifierId=#{cModifierId},cModificationTime=#{cModificationTime}
+        where cId = #{cId}
+    </update>
+
+    <delete id="deleteCarrier">
+        delete from carrier where cId = #{cId}
+    </delete>
+</mapper>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.managementsystem.mapper.DispatchlistMapper">
+
+    <resultMap id="baseMap" type="com.managementsystem.entity.Dispatchlist" autoMapping="false">
+        <result property="dpId" column="dpId"></result>
+        <result property="dpOdlId" column="dpOdlId"></result>
+        <result property="dpTime" column="dpTime"></result>
+        <result property="dpCId" column="dpCId"></result>
+        <result property="dpState" column="dpState"></result>
+        <result property="expressNumber" column="expressNumber"></result>
+        <result property="dpCreatorId" column="dpCreatorId"></result>
+        <result property="dpComment" column="dpComment"></result>
+        <result property="dpModifierId" column="dpModifierId"></result>
+        <result property="dpModificationTime" column="dpModificationTime"></result>
+        <result property="dpCreationTime" column="dpCreationTime"></result>
+    </resultMap>
+    <resultMap id="dispatchlistOutdeliverlistMap" type="com.managementsystem.entity.Dispatchlist" autoMapping="false" extends="baseMap">
+        <result property="outdeliverlist.odlId" column="odlId"></result>
+        <result property="outdeliverlist.odlOrderNum" column="odlOrderNum"></result>
+        <result property="outdeliverlist.odlType" column="odlType"></result>
+        <result property="outdeliverlist.odlCustomerId" column="odlCustomerId"></result>
+        <result property="outdeliverlist.odlCustomerName" column="odlCustomerName"></result>
+        <result property="outdeliverlist.odlMaterialId" column="odlMaterialId"></result>
+        <result property="outdeliverlist.odlMaterialName" column="odlMaterialName"></result>
+        <result property="outdeliverlist.warehouseId" column="warehouseId"></result>
+        <result property="outdeliverlist.warehouseName" column="warehouseName"></result>
+        <result property="outdeliverlist.reservoirareaId" column="reservoirareaId"></result>
+        <result property="outdeliverlist.reservoirareaName" column="reservoirareaName"></result>
+        <result property="outdeliverlist.odlSrId" column="odlSrId"></result>
+        <result property="outdeliverlist.odlSrName" column="odlSrName"></result>
+        <result property="outdeliverlist.odlOutQuantity" column="odlOutQuantity"></result>
+        <result property="outdeliverlist.odlState" column="odlState"></result>
+        <result property="outdeliverlist.odlAddress" column="odlAddress"></result>
+        <result property="outdeliverlist.odlCreatorId" column="odlCreatorId"></result>
+        <result property="outdeliverlist.odlComment" column="odlComment"></result>
+        <result property="outdeliverlist.odlModifierId" column="odlModifierId"></result>
+        <result property="outdeliverlist.odlModificationTime" column="odlModificationTime"></result>
+        <result property="outdeliverlist.odlCreationTime" column="odlCreationTime"></result>
+    </resultMap>
+    <resultMap id="dispatchlistCarrierMap" type="com.managementsystem.entity.Dispatchlist" autoMapping="false" extends="baseMap">
+        <result property="carrier.cId" column="cId"></result>
+        <result property="carrier.cName" column="cName"></result>
+        <result property="carrier.cType" column="cType"></result>
+        <result property="carrier.cPhone" column="cPhone"></result>
+        <result property="carrier.cLinkman" column="cLinkman"></result>
+        <result property="carrier.cCreatorId" column="cCreatorId"></result>
+        <result property="carrier.cComment" column="cComment"></result>
+        <result property="carrier.cModifierId" column="cModifierId"></result>
+        <result property="carrier.cModificationTime" column="cModificationTime"></result>
+        <result property="carrier.cCreationTime" column="cCreationTime"></result>
+    </resultMap>
+    <resultMap id="dispatchlistUserMap" type="com.managementsystem.entity.Dispatchlist" autoMapping="false" extends="baseMap">
+        <result property="user.uId" column="uId"></result>
+        <result property="user.uPassword" column="uPassword"></result>
+        <result property="user.uName" column="uName"></result>
+        <result property="user.uAuthority" column="uAuthority"></result>
+        <result property="user.uPhone" column="uPhone"></result>
+        <result property="user.uEmail" column="uEmail"></result>
+        <result property="user.uSex" column="uSex"></result>
+        <result property="user.uCreatorId" column="uCreatorId"></result>
+        <result property="user.uModifierId" column="uModifierId"></result>
+        <result property="user.uCreationTime" column="uCreationTime"></result>
+        <result property="user.uModificationTime" column="uModificationTime"></result>
+    </resultMap>
+
+    <select id="findAll" resultMap="dispatchlistOutdeliverlistMap">
+        select *
+        from dispatchList d,outdeliverList o
+        where d.dpOdlId = o.odlId
+    </select>
+
+    <select id="findReturnNote" resultMap="dispatchlistOutdeliverlistMap">
+        select *
+        from dispatchList d,outdeliverList o
+        where d.dpOdlId = o.odlId and dpState = #{dpState}
+    </select>
+
+    <insert id="addDispatchlist"  parameterType="com.managementsystem.entity.Dispatchlist">
+      insert into dispatchList(dpId,dpOdlId,dpState,dpCreatorId,dpCreationTime)
+      values
+      (#{dpId},#{dpOdlId},#{dpState},#{dpCreatorId},#{dpCreationTime})
+--       Insert into carrier values('c202103170003','韵达',1,'053187966003','王登丰',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+    </insert>
+    <update id="editDispatchlist" parameterType="com.managementsystem.entity.Dispatchlist">
+        update dispatchList
+        set dpTime=#{dpTime},dpCId=#{dpCId},dpState=#{dpState},expressNumber=#{expressNumber},dpComment=#{dpComment},dpModifierId=#{dpModifierId},
+        dpModificationTime=#{dpModificationTime}
+        where dpId = #{dpId}
+    </update>
+    <update id="updateState" >
+        update dispatchList
+        set dpState=#{dpState}
+        where dpId = #{dpId}
+    </update>
+
+    <delete id="deleteStock">
+        delete from dispatchList where dpId = #{dpId}
+    </delete>
+
+    <select id="getDpByCIdAndState" resultType="com.managementsystem.entity.Dispatchlist">
+        select *
+        from dispatchList
+        where dpCId=#{dpCId} and dpState != 3 and dpState != 6
+    </select>
+
+</mapper>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.managementsystem.mapper.MaterialMapper">
+
+    <resultMap id="baseMap" type="com.managementsystem.entity.Material" autoMapping="false">
+        <result property="mtId" column="mtId"></result>
+        <result property="mtName" column="mtName"></result>
+        <result property="mtType" column="mtType"></result>
+        <result property="mtSize" column="mtSize"></result>
+        <result property="mtCreatorId" column="mtCreatorId"></result>
+        <result property="mtComment" column="mtComment"></result>
+        <result property="mtModifierId" column="mtModifierId"></result>
+        <result property="mtModificationTime" column="mtModificationTime"></result>
+        <result property="mtCreationTime" column="mtCreationTime"></result>
+    </resultMap>
+
+
+
+    <!--<resultMap id="materialStoragerackMap" type="com.managementsystem.entity.Material" extends="baseMap" autoMapping="false">-->
+        <!--<collection property="storagerack" ofType="com.managementsystem.entity.Storagerack">-->
+            <!--<result property="srId" column="srId"></result>-->
+            <!--<result property="srName" column="srName"></result>-->
+            <!--<result property="srWhId" column="srWhId"></result>-->
+            <!--<result property="srRaId" column="srRaId"></result>-->
+            <!--<result property="srCreatorId" column="srCreatorId"></result>-->
+            <!--<result property="srComment" column="srComment"></result>-->
+            <!--<result property="srModifierId" column="srModifierId"></result>-->
+            <!--<result property="srModificationTime" column="srModificationTime"></result>-->
+            <!--<result property="srCreationTime" column="srCreationTime"></result>-->
+
+        <!--</collection>-->
+    <!--</resultMap>-->
+    <resultMap id="materialUserMap" type="com.managementsystem.entity.Material" autoMapping="false" extends="baseMap">
+        <result property="user.uId" column="uId"></result>
+        <result property="user.uPassword" column="uPassword"></result>
+        <result property="user.uName" column="uName"></result>
+        <result property="user.uAuthority" column="uAuthority"></result>
+        <result property="user.uPhone" column="uPhone"></result>
+        <result property="user.uEmail" column="uEmail"></result>
+        <result property="user.uSex" column="uSex"></result>
+        <result property="user.uCreatorId" column="uCreatorId"></result>
+        <result property="user.uModifierId" column="uModifierId"></result>
+        <result property="user.uCreationTime" column="uCreationTime"></result>
+        <result property="user.uModificationTime" column="uModificationTime"></result>
+    </resultMap>
+
+    <select id="findAll" resultType="com.managementsystem.entity.Material">
+      select *
+      from material
+    </select>
+    <select id="findMaterialById" resultType="com.managementsystem.entity.Material">
+        select *
+        from material
+        where mtId = #{mtId} and mtSrId = #{mtSrId}
+    </select>
+    <select id="findMaterialByOne" resultType="com.managementsystem.entity.Material">
+        select *
+        from material
+        where mtId = #{id}
+    </select>
+
+    <insert id="addMaterial"  parameterType="com.managementsystem.entity.Material">
+      insert into material
+      values
+      (#{mtId},#{mtName},#{mtType},#{mtSize},#{mtCreatorId},#{mtComment},#{mtModifierId},#{mtModificationTime},#{mtCreationTime})
+--       Insert into carrier values('c202103170003','韵达',1,'053187966003','王登丰',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+    </insert>
+    <update id="editMaterial" parameterType="com.managementsystem.entity.Material">
+        update material
+        set mtName=#{mtName},mtType=#{mtType},mtSize=#{mtSize},mtCreatorId=#{mtCreatorId},mtModifierId=#{mtModifierId},mtModificationTime=#{mtModificationTime}
+        where mtId = #{mtId}
+    </update>
+
+    <delete id="deleteMaterial">
+        delete from material where mtId = #{mtId}
+    </delete>
+</mapper>

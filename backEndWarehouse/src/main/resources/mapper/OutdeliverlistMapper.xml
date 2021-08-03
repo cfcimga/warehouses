@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.managementsystem.mapper.OutdeliverlistMapper">
+    <resultMap id="baseMap" type="com.managementsystem.entity.Outdeliverlist" autoMapping="false">
+        <result property="odlId" column="odlId"></result>
+        <result property="odlOrderNum" column="odlOrderNum"></result>
+        <result property="odlType" column="odlType"></result>
+        <result property="odlCustomerId" column="odlCustomerId"></result>
+        <result property="odlMaterialId" column="odlMaterialId"></result>
+        <result property="odlOutQuantity" column="odlOutQuantity"></result>
+        <result property="odlState" column="odlState"></result>
+        <result property="odlCreatorId" column="odlCreatorId"></result>
+        <result property="odlComment" column="odlComment"></result>
+        <result property="odlModifierId" column="odlModifierId"></result>
+        <result property="odlModificationTime" column="odlModificationTime"></result>
+        <result property="odlCreationTime" column="odlCreationTime"></result>
+    </resultMap>
+    <resultMap id="outdeliverlistCustomerMap" type="com.managementsystem.entity.Outdeliverlist" autoMapping="false" extends="baseMap">
+        <result property="customer.ctmId" column="ctmId"></result>
+        <result property="customer.ctmName" column="ctmName"></result>
+        <result property="customer.ctmType" column="ctmType"></result>
+        <result property="customer.ctmPhone" column="ctmPhone"></result>
+        <result property="customer.ctmLinkman" column="ctmLinkman"></result>
+        <result property="customer.ctmCreatorId" column="ctmCreatorId"></result>
+        <result property="customer.ctmComment" column="ctmComment"></result>
+        <result property="customer.ctmModifierId" column="ctmModifierId"></result>
+        <result property="customer.ctmModificationTime" column="ctmModificationTime"></result>
+        <result property="customer.ctmCreationTime" column="ctmCreationTime"></result>
+    </resultMap>
+    <resultMap id="outdeliverlistMaterialMap" type="com.managementsystem.entity.Outdeliverlist" autoMapping="false" extends="baseMap">
+        <result property="material.mtId" column="mtId"></result>
+        <result property="material.mtName" column="mtName"></result>
+        <result property="material.mtType" column="mtType"></result>
+        <result property="material.mtSize" column="mtSize"></result>
+        <result property="material.mtCreatorId" column="mtCreatorId"></result>
+        <result property="material.mtComment" column="mtComment"></result>
+        <result property="material.mtModifierId" column="mtModifierId"></result>
+        <result property="material.mtModificationTime" column="mtModificationTime"></result>
+        <result property="material.mtCreationTime" column="mtCreationTime"></result>
+    </resultMap>
+    <resultMap id="outdeliverlistUserMap" type="com.managementsystem.entity.Outdeliverlist" autoMapping="false" extends="baseMap">
+        <result property="user.uId" column="uId"></result>
+        <result property="user.uPassword" column="uPassword"></result>
+        <result property="user.uName" column="uName"></result>
+        <result property="user.uAuthority" column="uAuthority"></result>
+        <result property="user.uPhone" column="uPhone"></result>
+        <result property="user.uEmail" column="uEmail"></result>
+        <result property="user.uSex" column="uSex"></result>
+        <result property="user.uCreatorId" column="uCreatorId"></result>
+        <result property="user.uModifierId" column="uModifierId"></result>
+        <result property="user.uCreationTime" column="uCreationTime"></result>
+        <result property="user.uModificationTime" column="uModificationTime"></result>
+    </resultMap>
+    <select id="findAll" resultType="com.managementsystem.entity.Outdeliverlist">
+        select *
+        from outdeliverlist
+    </select>
+
+    <insert id="addOutdeliverlist"  parameterType="com.managementsystem.entity.Outdeliverlist">
+      insert into outdeliverlist
+      values
+      (#{odlId},#{odlOrderNum},#{odlType},#{odlCustomerId},#{odlCustomerName},#{odlMaterialId},#{odlMaterialName},#{warehouseId},
+      #{warehouseName},#{reservoirareaId},#{reservoirareaName},#{odlSrId},#{odlSrName},
+      #{odlOutQuantity},1,#{odlAddress},#{odlCreatorId},#{odlComment},#{odlModifierId},#{odlModificationTime},#{odlCreationTime})
+    </insert>
+    <update id="editOutdeliverlist" parameterType="com.managementsystem.entity.Outdeliverlist">
+        update outdeliverlist
+        set odlOrderNum=#{odlOrderNum},odlType=#{odlType},odlCustomerId=#{odlCustomerId},odlCustomerName=#{odlCustomerName},odlMaterialId=#{odlMaterialId},
+        odlMaterialName=#{odlMaterialName},warehouseId=#{warehouseId},warehouseName=#{warehouseName},reservoirareaId=#{reservoirareaId},
+        reservoirareaName=#{reservoirareaName},odlSrId=#{odlSrId},odlSrName=#{odlSrName},odlOutQuantity=#{odlOutQuantity},odlState=#{odlState},
+        odlAddress=#{odlAddress},odlComment=#{odlComment},odlModifierId=#{odlModifierId},odlModificationTime=#{odlModificationTime}
+        where odlId = #{odlId}
+    </update>
+
+    <delete id="deleteOutdeliverlist">
+        delete from outdeliverlist where odlId = #{odlId}
+    </delete>
+
+    <update id="updateState">
+        update outdeliverlist
+        set odlState=#{odlState}
+        where odlId = #{odlId}
+    </update>
+    <select id="getOdlByCtmId" resultType="com.managementsystem.entity.Outdeliverlist">
+        select *
+        from outdeliverlist
+        where odlCustomerId=#{odlCustomerId} and odlState != 3
+    </select>
+</mapper>

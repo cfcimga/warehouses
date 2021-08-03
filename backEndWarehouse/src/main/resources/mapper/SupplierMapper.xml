@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.managementsystem.mapper.SupplierMapper">
+    <resultMap id="baseMap" type="com.managementsystem.entity.Supplier" autoMapping="false">
+        <result property="splId" column="splId"></result>
+        <result property="splName" column="splName"></result>
+        <result property="splType" column="splType"></result>
+        <result property="splPhone" column="splPhone"></result>
+        <result property="splLinkman" column="splLinkman"></result>
+        <result property="splCreatorId" column="splCreatorId"></result>
+        <result property="splComment" column="splComment"></result>
+        <result property="splModifierId" column="splModifierId"></result>
+        <result property="splModificationTime" column="splModificationTime"></result>
+        <result property="splCreationTime" column="splCreationTime"></result>
+    </resultMap>
+    <resultMap id="supplierUserMap" type="com.managementsystem.entity.Supplier" autoMapping="false" extends="baseMap">
+        <result property="user.uId" column="uId"></result>
+        <result property="user.uPassword" column="uPassword"></result>
+        <result property="user.uName" column="uName"></result>
+        <result property="user.uAuthority" column="uAuthority"></result>
+        <result property="user.uPhone" column="uPhone"></result>
+        <result property="user.uEmail" column="uEmail"></result>
+        <result property="user.uSex" column="uSex"></result>
+        <result property="user.uCreatorId" column="uCreatorId"></result>
+        <result property="user.uModifierId" column="uModifierId"></result>
+        <result property="user.uCreationTime" column="uCreationTime"></result>
+        <result property="user.uModificationTime" column="uModificationTime"></result>
+    </resultMap>
+    <select id="findAll" resultType="com.managementsystem.entity.Supplier">
+        select *
+        from supplier order by splType asc
+    </select>
+
+    <insert id="addSupplier"  parameterType="com.managementsystem.entity.Supplier">
+      insert into supplier
+      values
+      (#{splId},#{splName},#{splType},#{splPhone},#{splLinkman},#{splCreatorId},#{splComment},#{splModifierId},#{splModificationTime},#{splCreationTime})
+--       Insert into carrier values('c202103170003','韵达',1,'053187966003','王登丰',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+    </insert>
+    <update id="editSupplier" parameterType="com.managementsystem.entity.Supplier">
+        update supplier
+        set splName=#{splName},splType=#{splType},splPhone=#{splPhone},splLinkman=#{splLinkman},splComment=#{splComment},splModifierId=#{splModifierId},splModificationTime=#{splModificationTime}
+        where splId = #{splId}
+    </update>
+
+    <delete id="deleteSupplier">
+        delete from supplier where splId = #{splId}
+    </delete>
+</mapper>

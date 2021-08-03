@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.managementsystem.mapper.InformMapper">
+    <resultMap id="baseMap" type="com.managementsystem.entity.Inform" autoMapping="false">
+        <result property="fId" column="fId"></result>
+        <result property="fTitle" column="fTitle"></result>
+        <result property="fContent" column="fContent"></result>
+        <result property="fCreatorId" column="fCreatorId"></result>
+        <result property="fCreationTime" column="fCreationTime"></result>
+    </resultMap>
+    <resultMap id="informUserMap" type="com.managementsystem.entity.Inform" extends="baseMap" autoMapping="false">
+
+        <collection property="mdform" ofType="com.managementsystem.entity.Mdform" javaType="java.util.List">
+            <result property="fId" column="fId"></result>
+            <result property="uId" column="uId"></result>
+            <result property="state" column="state"></result>
+        </collection>
+    </resultMap>
+   <select id="findAll" resultMap="informUserMap">
+      select *
+      from inform a left join mdForm b on a.fId = b.fId
+      ORDER BY a.fCreationTime DESC
+   </select>
+
+    <insert id="addInform">
+        Insert into inform
+        values(#{fId},#{fTitle},#{fContent},#{fCreatorId},#{fCreationTime})
+    </insert>
+    <delete id="deleteInform">
+        delete inform,mdForm from inform left join mdForm on inform.fId = mdForm.fId where inform.fId = #{fId}
+    </delete>
+
+</mapper>

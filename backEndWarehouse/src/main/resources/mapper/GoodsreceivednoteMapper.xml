@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.managementsystem.mapper.GoodsreceivednoteMapper">
+
+    <resultMap id="baseMap" type="com.managementsystem.entity.Goodsreceivednote" autoMapping="false">
+        <result property="grnId" column="grnId"></result>
+        <result property="grnOrderNum" column="grnOrderNum"></result>
+        <result property="grnType" column="grnType"></result>
+        <result property="grnSplId" column="grnSplId"></result>
+        <result property="grnMaterialId" column="grnMaterialId"></result>
+        <result property="grnInquantity" column="grnInquantity"></result>
+        <result property="grnState" column="grnState"></result>
+        <result property="grnCreatorId" column="grnCreatorId"></result>
+        <result property="grnComment" column="grnComment"></result>
+        <result property="grnModifierId" column="grnModifierId"></result>
+        <result property="grnModificationTime" column="grnModificationTime"></result>
+        <result property="grnCreationTime" column="grnCreationTime"></result>
+    </resultMap>
+    <resultMap id="goodsreceivednoteSupplierMap" type="com.managementsystem.entity.Goodsreceivednote" autoMapping="false" extends="baseMap">
+        <result property="supplier.splId" column="splId"></result>
+        <result property="supplier.splName" column="splName"></result>
+        <result property="supplier.splType" column="splType"></result>
+        <result property="supplier.splPhone" column="splPhone"></result>
+        <result property="supplier.splLinkman" column="splLinkman"></result>
+        <result property="supplier.splCreatorId" column="splCreatorId"></result>
+        <result property="supplier.splComment" column="splComment"></result>
+        <result property="supplier.splModifierId" column="splModifierId"></result>
+        <result property="supplier.splModificationTime" column="splModificationTime"></result>
+        <result property="supplier.splCreationTime" column="splCreationTime"></result>
+    </resultMap>
+    <resultMap id="goodsreceivednoteMaterialMap" type="com.managementsystem.entity.Goodsreceivednote" autoMapping="false" extends="baseMap">
+        <result property="material.mtId" column="mtId"></result>
+        <result property="material.mtName" column="mtName"></result>
+        <result property="material.mtType" column="mtType"></result>
+        <result property="material.mtSize" column="mtSize"></result>
+        <result property="material.mtCreatorId" column="mtCreatorId"></result>
+        <result property="material.mtComment" column="mtComment"></result>
+        <result property="material.mtModifierId" column="mtModifierId"></result>
+        <result property="material.mtModificationTime" column="mtModificationTime"></result>
+        <result property="material.mtCreationTime" column="mtCreationTime"></result>
+    </resultMap>
+    <resultMap id="goodsreceivednoteUserMap" type="com.managementsystem.entity.Goodsreceivednote" autoMapping="false" extends="baseMap">
+        <result property="user.uId" column="uId"></result>
+        <result property="user.uPassword" column="uPassword"></result>
+        <result property="user.uName" column="uName"></result>
+        <result property="user.uAuthority" column="uAuthority"></result>
+        <result property="user.uPhone" column="uPhone"></result>
+        <result property="user.uEmail" column="uEmail"></result>
+        <result property="user.uSex" column="uSex"></result>
+        <result property="user.uCreatorId" column="uCreatorId"></result>
+        <result property="user.uModifierId" column="uModifierId"></result>
+        <result property="user.uCreationTime" column="uCreationTime"></result>
+        <result property="user.uModificationTime" column="uModificationTime"></result>
+    </resultMap>
+
+    <select id="findAll" resultType="com.managementsystem.entity.Goodsreceivednote">
+        select *
+        from goodsReceivedNote
+
+    </select>
+
+    <insert id="addGoodsreceivednote"  parameterType="com.managementsystem.entity.Goodsreceivednote">
+      insert into goodsReceivedNote
+      values
+      (#{grnId},#{grnOrderNum},#{grnType},#{grnSplId},#{grnSplName},#{grnMaterialId},#{grnMaterialName},#{warehouseId},
+      #{warehouseName},#{reservoirareaId},#{reservoirareaName},#{grnSrId},#{grnSrName},
+      #{grnInQuantity},1,#{grnDpId},#{grnCreatorId},#{grnComment},#{grnModifierId},#{grnModificationTime},#{grnCreationTime})
+    </insert>
+
+    <update id="editGoodsreceivednote" parameterType="com.managementsystem.entity.Goodsreceivednote">
+        update goodsReceivedNote
+        set grnOrderNum=#{grnOrderNum},grnType=#{grnType},grnSplId=#{grnSplId},grnSplName=#{grnSplName},grnMaterialId=#{grnMaterialId},
+        grnMaterialName=#{grnMaterialName},warehouseId=#{warehouseId},warehouseName=#{warehouseName},reservoirareaId=#{reservoirareaId},
+        reservoirareaName=#{reservoirareaName},grnSrId=#{grnSrId},grnSrName=#{grnSrName},grnInQuantity=#{grnInQuantity},grnState=#{grnState},
+        grnComment=#{grnComment},grnModifierId=#{grnModifierId},grnModificationTime=#{grnModificationTime},grnDpId = #{grnDpId}
+        where grnId = #{grnId}
+    </update>
+
+    <delete id="deleteGoodsreceivednote">
+        delete from goodsReceivedNote where grnId = #{grnId}
+    </delete>
+
+    <update id="updateState">
+        update goodsReceivedNote
+        set grnState=#{grnState}
+        where grnId = #{grnId}
+    </update>
+
+    <select id="getGrnBySplId" resultType="com.managementsystem.entity.Goodsreceivednote">
+        select *
+        from goodsReceivedNote
+        where grnSplId = #{grnSplId} and grnState != 3
+    </select>
+</mapper>

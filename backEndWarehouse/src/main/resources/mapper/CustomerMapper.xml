@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.managementsystem.mapper.CustomerMapper">
+
+    <resultMap id="baseMap" type="com.managementsystem.entity.Customer" autoMapping="false">
+        <result property="ctmId" column="ctmId"></result>
+        <result property="ctmName" column="ctmName"></result>
+        <result property="ctmType" column="ctmType"></result>
+        <result property="ctmPhone" column="ctmPhone"></result>
+        <result property="ctmLinkman" column="ctmLinkman"></result>
+        <result property="ctmCreatorId" column="ctmCreatorId"></result>
+        <result property="ctmComment" column="ctmComment"></result>
+        <result property="ctmModifierId" column="ctmModifierId"></result>
+        <result property="ctmModificationTime" column="ctmModificationTime"></result>
+        <result property="ctmCreationTime" column="ctmCreationTime"></result>
+    </resultMap>
+    <resultMap id="customerUserMap" type="com.managementsystem.entity.Customer" autoMapping="false" extends="baseMap">
+        <result property="user.uId" column="uId"></result>
+        <result property="user.uPassword" column="uPassword"></result>
+        <result property="user.uName" column="uName"></result>
+        <result property="user.uAuthority" column="uAuthority"></result>
+        <result property="user.uPhone" column="uPhone"></result>
+        <result property="user.uEmail" column="uEmail"></result>
+        <result property="user.uSex" column="uSex"></result>
+        <result property="user.uCreatorId" column="uCreatorId"></result>
+        <result property="user.uModifierId" column="uModifierId"></result>
+        <result property="user.uCreationTime" column="uCreationTime"></result>
+        <result property="user.uModificationTime" column="uModificationTime"></result>
+    </resultMap>
+    <select id="findAll" resultType="com.managementsystem.entity.Customer">
+        select ctmId,
+        ctmName,
+        ctmType,
+        ctmPhone,
+        ctmLinkman,
+        ctmCreatorId,
+        ctmComment,
+        ctmModifierId,
+        ctmModificationTime,
+        ctmCreationTime
+        from customer order by ctmType asc
+    </select>
+
+    <insert id="addCustomer"  parameterType="com.managementsystem.entity.Customer">
+      insert into customer
+      values
+      (#{ctmId},#{ctmName},#{ctmType},#{ctmPhone},#{ctmLinkman},#{ctmCreatorId},#{ctmComment},#{ctmModifierId},#{ctmModificationTime},#{ctmCreationTime})
+--       Insert into carrier values('c202103170003','韵达',1,'053187966003','王登丰',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+    </insert>
+    <update id="editCustomer" parameterType="com.managementsystem.entity.Customer">
+        update customer
+        set ctmName=#{ctmName},ctmType=#{ctmType},ctmPhone=#{ctmPhone},ctmLinkman=#{ctmLinkman},ctmComment=#{ctmComment},ctmModifierId=#{ctmModifierId},ctmModificationTime=#{ctmModificationTime}
+        where ctmId = #{ctmId}
+    </update>
+
+    <delete id="deleteCustomer">
+        delete from customer where ctmId = #{ctmId}
+    </delete>
+
+</mapper>

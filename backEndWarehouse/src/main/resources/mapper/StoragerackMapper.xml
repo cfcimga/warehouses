@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.managementsystem.mapper.StoragerackMapper">
+    <resultMap id="baseMap" type="com.managementsystem.entity.Storagerack" autoMapping="false">
+            <result property="srId" column="srId"></result>
+            <result property="srName" column="srName"></result>
+            <result property="srMtId" column="srMtId"></result>
+            <result property="srWhId" column="srWhId"></result>
+            <result property="srRaId" column="srRaId"></result>
+            <result property="srCreatorId" column="srCreatorId"></result>
+            <result property="srComment" column="srComment"></result>
+            <result property="srModifierId" column="srModifierId"></result>
+            <result property="srModificationTime" column="srModificationTime"></result>
+            <result property="srCreationTime" column="srCreationTime"></result>
+    </resultMap>
+    <resultMap id="storagerackWarehouseMap" type="com.managementsystem.entity.Storagerack" extends="baseMap" autoMapping="false">
+        <result property="warehouse.whId" column="whId"></result>
+        <result property="warehouse.whName" column="whCreatorId"></result>
+        <result property="warehouse.whComment" column="whComment"></result>
+        <result property="warehouse.whModifierId" column="whModifierId"></result>
+        <result property="warehouse.whModificationTime" column="whModificationTime"></result>
+        <result property="warehouse.whCreationTime" column="whCreationTime"></result>
+    </resultMap>
+    <resultMap id="storagerackReservoirareaMap" type="com.managementsystem.entity.Storagerack" autoMapping="false"  extends="baseMap">
+        <result property="reservoirarea.raId" column="raId"></result>
+        <result property="reservoirarea.raName" column="raName"></result>
+        <result property="reservoirarea.raType" column="raType"></result>
+        <result property="reservoirarea.raWhId" column="raWhId"></result>
+        <result property="reservoirarea.raCreatorId" column="raCreatorId"></result>
+        <result property="reservoirarea.raComment" column="raComment"></result>
+        <result property="reservoirarea.raModifierId" column="raModifierId"></result>
+        <result property="reservoirarea.raModificationTime" column="raModificationTime"></result>
+        <result property="reservoirarea.raCreationTime" column="raCreationTime"></result>
+    </resultMap>
+    <resultMap id="storagerackUserMap" type="com.managementsystem.entity.Storagerack" autoMapping="false" extends="baseMap">
+        <result property="user.uId" column="uId"></result>
+        <result property="user.uPassword" column="uPassword"></result>
+        <result property="user.uName" column="uName"></result>
+        <result property="user.uAuthority" column="uAuthority"></result>
+        <result property="user.uPhone" column="uPhone"></result>
+        <result property="user.uEmail" column="uEmail"></result>
+        <result property="user.uSex" column="uSex"></result>
+        <result property="user.uCreatorId" column="uCreatorId"></result>
+        <result property="user.uModifierId" column="uModifierId"></result>
+        <result property="user.uCreationTime" column="uCreationTime"></result>
+        <result property="user.uModificationTime" column="uModificationTime"></result>
+    </resultMap>
+    <select id="findAll" resultType="com.managementsystem.entity.Storagerack">
+        select *
+        from storageRack
+    </select>
+
+    <insert id="addStoragerack"  parameterType="com.managementsystem.entity.Storagerack">
+      insert into storagerack
+      values
+      (#{srId},#{srName},#{srMtId},#{srMtName},#{srWhId},#{srWhName},#{srRaId},#{srRaName},#{srCreatorId},#{srComment},#{srModifierId},#{srModificationTime},#{srCreationTime})
+--       Insert into carrier values('c202103170003','韵达',1,'053187966003','王登丰',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+    </insert>
+    <update id="editStoragerack" parameterType="com.managementsystem.entity.Storagerack">
+        update storagerack
+        set srName=#{srName},srWhId=#{srWhId},srWhName=#{srWhName},srRaId=#{srRaId},srRaName=#{srRaName},srComment=#{srComment},srModifierId=#{srModifierId},srModificationTime=#{srModificationTime}
+        where srId = #{srId}
+    </update>
+
+    <delete id="deleteStoragerack">
+        delete from storagerack where srId = #{srId}
+    </delete>
+    <select id="getStoragerackBySrRaId" resultType="com.managementsystem.entity.Storagerack">
+        select *
+        from storagerack
+        where srRaId = #{raId}
+    </select>
+    <update id="updateMaterial">
+        update storagerack
+        set srMtId = #{mtId},srMtName = #{mtName}
+        where srId = #{srId}
+    </update>
+    <update id="clearMaterial">
+        update storagerack
+        set srMtId='',srMtName=''
+        where srId = #{srId}
+    </update>
+</mapper>

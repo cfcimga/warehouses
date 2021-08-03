@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.managementsystem.mapper.StockMapper">
+
+    <select id="findAll" resultType="com.managementsystem.entity.Stock">
+        select *
+        from stock
+    </select>
+
+    <insert id="addStock"  parameterType="com.managementsystem.entity.Stock">
+      insert into stock
+      values
+      (#{mtId},#{mtName},#{whId},#{whName},#{raId},#{raName},#{srId},#{srName},#{currentStock},#{safeStock},#{creationTime},#{modificationTime})
+--       Insert into carrier values('c202103170003','韵达',1,'053187966003','王登丰',123456,'位于广州',123456,'2021-03-17 15:54:12','2021-03-17 15:54:12');
+
+    </insert>
+    <update id="editStock" parameterType="com.managementsystem.entity.Stock">
+        update stock
+        set currentStock=#{currentStock},modificationTime=#{modificationTime}
+        where mtId = #{mtId} and srId = #{srId}
+    </update>
+
+    <delete id="deleteStock">
+        delete from stock where srId = #{srId} and mtId = #{mtId}
+    </delete>
+    <select id="getStockBySrId" resultType="com.managementsystem.entity.Stock">
+        select *
+        from stock
+        where srId = #{srId}
+    </select>
+    <select id="getStockByMtId" resultType="com.managementsystem.entity.Stock">
+        select *
+        from stock
+        where mtId = #{mtId}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.managementsystem.mapper.WarehouseMapper">
+    <resultMap id="baseMap" type="com.managementsystem.entity.Warehouse" autoMapping="false">
+            <result property="whId" column="whId"></result>
+            <result property="whName" column="whCreatorId"></result>
+            <result property="whCreatorId" column="whCreatorId"></result>
+            <result property="whComment" column="whComment"></result>
+            <result property="whModifierId" column="whModifierId"></result>
+            <result property="whModificationTime" column="whModificationTime"></result>
+            <result property="whCreationTime" column="whCreationTime"></result>
+    </resultMap>
+    <select id="findAll" resultType="com.managementsystem.entity.Warehouse">
+        select *
+        from warehouse
+    </select>
+
+    <insert id="addWarehouse"  parameterType="com.managementsystem.entity.Warehouse">
+      insert into warehouse
+      values
+      (#{whId},#{whName},#{whCreatorId},#{whComment},#{whModifierId},#{whModificationTime},#{whCreationTime})
+    </insert>
+    <update id="editWarehouse" parameterType="com.managementsystem.entity.Warehouse">
+        update warehouse
+        set whName=#{whName},whComment=#{whComment},whModifierId=#{whModifierId},whModificationTime=#{whModificationTime}
+        where whId = #{whId}
+    </update>
+
+    <delete id="deleteWarehouse">
+        delete from warehouse where whId = #{whId}
+    </delete>
+
+    <select id="getWarehouseById" resultType="com.managementsystem.entity.Warehouse">
+        select *
+        from warehouse
+        where whId = #{whId}
+    </select>
+</mapper>
